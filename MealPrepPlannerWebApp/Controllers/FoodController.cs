@@ -6,6 +6,7 @@ using MealPrepPlannerWebApp.Services.Interfaces;
 using MealPrepPlannerWebApp.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MealPrepPlannerWebApp.Controllers
 {
@@ -47,8 +48,10 @@ namespace MealPrepPlannerWebApp.Controllers
         }
 
         // GET: Food/Create
-        public ActionResult Create()
+        public ActionResult AddMeal()
         {
+            //var viewModel = new AddMealViewModel();
+
             return View();
         }
 
@@ -67,6 +70,20 @@ namespace MealPrepPlannerWebApp.Controllers
             {
                 return View();
             }
+        }
+
+        public IActionResult AddIngredient(IngredientViewModel viewModel)
+        {
+            var units = _dataService.GetUnits();
+
+            var unitsList = viewModel.Units = new List<SelectListItem>();
+
+            foreach (var unit in units)
+            {
+                unitsList.Add(new SelectListItem { Text = unit.Name, Value = unit.Id.ToString()});
+            }
+
+            return View(viewModel);
         }
 
         // GET: Food/Edit/5

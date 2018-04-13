@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace MealPrepPlannerWebApp.Services
 {
-    public class DataService<T> : IDataService
+    public class DataService : IDataService
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -23,6 +23,11 @@ namespace MealPrepPlannerWebApp.Services
         public List<Ingredient> GetIngredients()
         {
             return _unitOfWork.IngredientRepository.GetAll().ToList();
+        }
+
+        public List<Unit> GetUnits()
+        {
+            return _unitOfWork.UnitRepository.GetAll().ToList();
         }
     }
 }

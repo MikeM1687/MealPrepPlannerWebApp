@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MealPrepPlannerWebApp.Entities\MealPrepPlannerWebApp.Entities.csproj" />
+    <ProjectReference Include="..\MealPrepPlannerWebApp.Repositories\MealPrepPlannerWebApp.Repositories.csproj" />
     <ProjectReference Include="..\MealPrepPlannerWebApp.Services.Interfaces\MealPrepPlannerWebApp.Services.Interfaces.csproj" />
     <ProjectReference Include="..\MealPrepPlannerWebApp.Services\MealPrepPlannerWebApp.Services.csproj" />
   </ItemGroup>

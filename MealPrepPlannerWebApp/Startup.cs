@@ -12,6 +12,8 @@ using MealPrepPlannerWebApp.Models;
 using MealPrepPlannerWebApp.Services;
 using MealPrepPlannerWebApp.Entities.Models;
 using MealPrepPlannerWebApp.Services.Interfaces;
+using MealPrepPlannerWebApp.Repositories.Interfaces;
+using MealPrepPlannerWebApp.Repositories;
 
 namespace MealPrepPlannerWebApp
 {
@@ -36,7 +38,9 @@ namespace MealPrepPlannerWebApp
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
-            services.AddTransient <IDataService, (typeof(DataService<>)));
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddTransient <IDataService, DataService>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddMvc();
         }

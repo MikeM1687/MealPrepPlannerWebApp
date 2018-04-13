@@ -10,5 +10,6 @@ namespace MealPrepPlannerWebApp.Services.Interfaces
     {
         IRepository<Meal> MealRepository { get; }
         IRepository<Ingredient> IngredientRepository { get; }
+        IRepository<Unit> UnitRepository { get; }
     }
 }

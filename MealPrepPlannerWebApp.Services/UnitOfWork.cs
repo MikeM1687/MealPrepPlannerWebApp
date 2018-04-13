@@ -13,14 +13,17 @@ namespace MealPrepPlannerWebApp.Services
 
         public IRepository<Meal> MealRepository { get; }
         public IRepository<Ingredient> IngredientRepository { get; }
+        public IRepository<Unit> UnitRepository { get; }
 
         public UnitOfWork(MealPrepPlannerWebApp_DatabaseContext context,
             IRepository<Meal> mealRepository,
-            IRepository<Ingredient> ingredientRepository)
+            IRepository<Ingredient> ingredientRepository,
+            IRepository<Unit> unitRepository)
         {
             _context = context;
             MealRepository = mealRepository;
             IngredientRepository = ingredientRepository;
+            UnitRepository = unitRepository;
         }
     }
 }

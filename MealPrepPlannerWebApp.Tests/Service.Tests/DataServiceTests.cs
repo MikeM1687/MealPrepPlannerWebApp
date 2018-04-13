@@ -30,6 +30,15 @@ namespace MealPrepPlannerWebApp.Tests.Service.Tests
             };
         }
 
+        private List<Unit> UnitsTestData()
+        {
+            return new List<Unit>
+            {
+                new Unit {Id = 1, Name = "ml"},
+                new Unit {Id = 2, Name = "g"}
+            };
+        }
+
         [Fact]
         public void GetAllMeals_Returns_AllMeals()
         {
@@ -37,7 +46,7 @@ namespace MealPrepPlannerWebApp.Tests.Service.Tests
             mockUnitOfWork.Setup(x => x.MealRepository.GetAll())
                 .Returns(MealsTestData());
 
-            var dataService = new DataService<Meal>(mockUnitOfWork.Object);
+            var dataService = new DataService(mockUnitOfWork.Object);
 
             var meals = dataService.GetMeals();
 
@@ -51,11 +60,25 @@ namespace MealPrepPlannerWebApp.Tests.Service.Tests
             mockUnitOfWork.Setup(x => x.IngredientRepository.GetAll())
                 .Returns(IngredientsTestData());
 
-            var dataService = new DataService<Ingredient>(mockUnitOfWork.Object);
+            var dataService = new DataService(mockUnitOfWork.Object);
 
             var ingredients = dataService.GetIngredients();
 
             Assert.Equal(IngredientsTestData().Count, ingredients.Count);
+        }
+
+        [Fact]
+        public void GetAllUnits_Returns_AllUnits()
+        {
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            mockUnitOfWork.Setup(x => x.UnitRepository.GetAll())
+                .Returns(UnitsTestData());
+
+            var dataService = new DataService(mockUnitOfWork.Object);
+
+            var units = dataService.GetUnits();
+
+            Assert.Equal(UnitsTestData().Count, units.Count);
         }
     }
 }
