@@ -3,6 +3,7 @@ using MealPrepPlannerWebApp.Entities.Models;
 using MealPrepPlannerWebApp.Services.Interfaces;
 using MealPrepPlannerWebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -60,15 +61,37 @@ namespace MealPrepPlannerWebApp.Tests.Controller.Tests
             var controller = new FoodController(mockDataService.Object);
 
             var vm = new IngredientViewModel();
-            vm.Units = new List<UnitViewModel> { new UnitViewModel { Name = "g"} };
+            vm.Units = new List<SelectListItem> { new SelectListItem { Text = "g" } } ;
 
-            var result = controller.AddIngredient(vm);
+            var result = controller.GetAddIngredient(vm);
 
             ViewResult viewResult = Assert.IsType<ViewResult>(result);
 
             var viewModel = Assert.IsType<IngredientViewModel>(viewResult.Model);
 
-            Assert.Equal(UnitsTestData()[0].Name, viewModel.Units[0].Name);
+            Assert.Equal(UnitsTestData()[0].Name, viewModel.Units[0].Text);
+        }
+
+        [Fact]
+        public void AddIngredient_ToDatabase_AddsIngredientToDatabase()
+        {
+            var mockDataService = new Mock<IDataService>();
+            mockDataService.Setup(x => x.CreateIngredient(It.IsAny<Ingredient>()));
+
+            var controller = new FoodController(mockDataService.Object);
+
+            var vm = new IngredientViewModel
+            {
+                Name = "Chicken",
+                Quantity = 250,
+                Units = new List<SelectListItem> { new SelectListItem { Text = "g"} }
+            };
+
+            vm.Units = new List<SelectListItem> { new SelectListItem { Text = "g" } };
+
+            var result = controller.AddIngredient(vm);
+
+            mockDataService.Verify(x => x.CreateIngredient(It.IsAny<Ingredient>()), Times.Exactly(1));
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MealPrepPlannerWebApp.Entities.Models;
 using MealPrepPlannerWebApp.Services.Interfaces;
 using MealPrepPlannerWebApp.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -72,7 +73,7 @@ namespace MealPrepPlannerWebApp.Controllers
             }
         }
 
-        public IActionResult AddIngredient(IngredientViewModel viewModel)
+        public IActionResult GetAddIngredient(IngredientViewModel viewModel)
         {
             var units = _dataService.GetUnits();
 
@@ -83,7 +84,7 @@ namespace MealPrepPlannerWebApp.Controllers
                 unitsList.Add(new SelectListItem { Text = unit.Name, Value = unit.Id.ToString()});
             }
 
-            return View(viewModel);
+            return View("AddIngredient", viewModel);
         }
 
         // GET: Food/Edit/5
@@ -130,6 +131,21 @@ namespace MealPrepPlannerWebApp.Controllers
             {
                 return View();
             }
+        }
+
+        [HttpPost]
+        public IActionResult AddIngredient(IngredientViewModel vm)
+        {
+            Ingredient ingredient = new Ingredient
+            {
+                Name = vm.Name,
+                Qty = vm.Quantity,
+                UnitId = vm.UnitId
+            };
+
+            _dataService.CreateIngredient(ingredient);
+
+            return View();
         }
     }
 }

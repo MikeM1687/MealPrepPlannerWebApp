@@ -4,6 +4,7 @@ using MealPrepPlannerWebApp.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MealPrepPlannerWebApp.Repositories
 {
@@ -18,9 +19,26 @@ namespace MealPrepPlannerWebApp.Repositories
             _dbSet = context.Set<T>();
         }
 
+        public void Add(T entity)
+        {
+            _context.Set<T>().Add(entity);
+
+            Save();
+        }
+
+        public T Get(int id)
+        {
+            return _dbSet.SingleOrDefault(s => s.Id == id);
+        }
+
         public IEnumerable<T> GetAll()
         {
             return _dbSet;
+        }
+
+        private void Save()
+        {
+            _context.SaveChanges();
         }
     }
 }

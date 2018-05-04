@@ -80,5 +80,34 @@ namespace MealPrepPlannerWebApp.Tests.Service.Tests
 
             Assert.Equal(UnitsTestData().Count, units.Count);
         }
+
+        [Fact]
+        public void CreateIngredient_AddsNewIngredientToDb()
+        {
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            mockUnitOfWork.Setup(x => x.IngredientRepository.Add(It.IsAny<Ingredient>()));
+
+            var unit = new Unit
+            {
+                Id = 1,
+                Name = "g"
+            };
+
+            var ingredient = new Ingredient
+            {
+                Name = "Chicken",
+                Qty = 250,
+                Unit = unit
+            };
+
+            var dataService = new DataService(mockUnitOfWork.Object);
+
+            dataService.CreateIngredient(ingredient);
+
+            mockUnitOfWork.VerifyAll();
+            mockUnitOfWork.Verify(r => r.IngredientRepository.Add(It.IsAny<Ingredient>()), Times.Exactly(1));
+
+        }
     }
 }

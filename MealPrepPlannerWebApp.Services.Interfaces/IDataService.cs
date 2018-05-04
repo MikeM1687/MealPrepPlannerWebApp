@@ -10,5 +10,6 @@ namespace MealPrepPlannerWebApp.Services.Interfaces
         List<Meal> GetMeals();
         List<Ingredient> GetIngredients();
         List<Unit> GetUnits();
+        void CreateIngredient(Ingredient ingredient);
     }
 }
